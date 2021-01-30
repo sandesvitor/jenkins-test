@@ -38,7 +38,6 @@ pipeline {
             // }
             steps {
                 echo 'testing the application...'
-                echo "deploying version ${params.VERSION}"
             }
         }
 
@@ -52,6 +51,7 @@ pipeline {
                 // ]) {
                 //     sh "some script ${USER} ${PWD}"
                 // }
+                echo "deploying version ${params.VERSION}"
             }
         }
     }
