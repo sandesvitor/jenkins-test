@@ -1,3 +1,5 @@
+def gv
+
 pipeline {
 
     agent any
@@ -13,13 +15,23 @@ pipeline {
     //     maven 'Maven'
     // }
     stages {
-
+        // importing the groovy script!
+        stage("init"){
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
+            }
+        }
         stage("build") {
     
             steps {
-                echo 'building the application...'
-                echo "building version ${env.NEW_VERSION}"
+                // echo 'building the application...'
+                // echo "building version ${env.NEW_VERSION}"
                 //sh "mvn install"
+                script {
+                    gv.buildApp()
+                }
             }
         }
 
@@ -37,21 +49,27 @@ pipeline {
             //     }
             // }
             steps {
-                echo 'testing the application...'
+                // echo 'testing the application...'
+                script {
+                    gv.testApp()
+                }
             }
         }
 
         stage("deploy") {
 
             steps {
-                echo 'deploying the application...'
+                // echo 'deploying the application...'
                 
                 // withCredentials([
                 //     usernamePassword(credentials: 'global' usernameVariable: USER, passwordVariable: PWD)
                 // ]) {
                 //     sh "some script ${USER} ${PWD}"
                 // }
-                echo "deploying version ${params.VERSION}"
+                // echo "deploying version ${params.VERSION}"
+                script {
+                    gv.deployApp()
+                }
             }
         }
     }
