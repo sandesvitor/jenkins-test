@@ -1,8 +1,10 @@
 const express = require("express")
 const app = express()
-
+const cors = require('cors')
 
 let i = 1
+
+app.use(cors())
 
 app.get("/", (req, res) => {
     res.send(`
