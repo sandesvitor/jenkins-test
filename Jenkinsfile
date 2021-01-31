@@ -57,7 +57,11 @@ pipeline {
         }
 
         stage("deploy") {
-
+            when {
+                expression {
+                    env.BRANCH_NAME == 'master'
+                }
+            }
             steps {
                 // echo 'deploying the application...'
                 
@@ -74,18 +78,9 @@ pipeline {
         }
     }
 
-    // post {
-    //     // execute some logic AFTER all stages
-    //     always {
-    //         // it will execute ALWAYS, even if the build fails (ex: sending an email)
-    //     }
-    
-    //     success {
-    //         // it will execute on SUCCESS
-    //     }
-
-    //     failure {
-    //         // it will execute on FAILURE
-    //     }
-    // }
+    post {
+        always {
+            emailext body: 'A Test Email', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+        }
+    }
 }
